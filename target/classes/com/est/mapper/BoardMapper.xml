@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.est.mapper.BoardMapper">
+  
+  <select id="getList" resultType="com.est.domain.BoardVO">
+  SELECT * from myboard order by bno desc
+  </select>
+  
+  <insert id="insert">
+  insert into myboard (bno, title, content, writer) 
+  values (seq_myboard.nextval, #{title},#{content},#{writer})
+  </insert>
+  
+  <!-- 몇 번글이 등록 되었습니다. 할때 insertKey 사  -->
+  <insert id="insertSelectKey">
+  	<selectKey order="BEFORE" keyProperty="bno" resultType="long">
+  	select seq_myboard.nextval from dual
+  	</selectKey>
+  	
+   insert into myboard (bno, title, content, writer) 
+  values (#{bno}, #{title},#{content},#{writer})
+  </insert>
+  
+  
+  </mapper>
